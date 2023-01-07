@@ -90,13 +90,6 @@ section {
     color: hsl(322, 71%, 55%);
 }
 
-button {
-    background-color: transparent;
-    background-repeat: no-repeat;
-    border: none;
-    cursor: pointer;
-}
-
 /* Banner */
 .banner {
     /* transform: translateY(150px); */
@@ -107,7 +100,7 @@ button {
     max-width: 1900px;
     max-height: 900px;
     background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.9)),
-        url(../img/824.jpg) center/cover no-repeat fixed;
+        url(../img/banner.png) center/cover no-repeat fixed;
     /* image-rendering: -webkit-optimize-contrast; */
     text-align: center;
     color: wheat;
@@ -132,56 +125,7 @@ button {
 /* ==================
 =====Form=====
 =======================*/
-.contact-form {
-    background: rgb(135, 168, 184);
-    margin-top: 5rem;
-    max-width: 1200px;
-    width: 50vw;
-    letter-spacing: var(--spacing);
-    color: white;
-    font-size: 1rem;
-    border-radius: 2rem;
-    padding-top: 0.8rem;
-    margin: 0 auto;
-}
-.contact-form h3 {
-    text-align: center;
-    letter-spacing: var(--spacing);
-}
-.form-group {
-    display: flex;
-    justify-content: space-around;
-    flex-direction: column;
-}
-.form {
-    margin-top: 1rem;
-    display: flex;
-    justify-content: space-around;
-}
-.form-submit {
-    font-family: var(--ff-primary);
-    text-align: center;
-    font-size: 2rem;
-    padding: 0.8rem;
-    border-bottom-left-radius: 2rem;
-    border-bottom-right-radius: 2rem;
-    border: none;
-    background: linear-gradient(beige, rgb(235, 227, 163));
-    transition: var(--transition);
-}
-.form-submit:hover {
-    cursor: pointer;
-    background-color: beige;
-    color: rgb(21, 169, 243);
-}
-.form-input {
-    /* display: block; */
-    width: 50%;
-    margin-bottom: 1.5rem;
-    padding: 1rem 2rem;
-    background: rgb(235, 227, 163);
-    border: none;
-}
+
 ::placeholder {
     font-size: 1.3rem;
     text-align: center;

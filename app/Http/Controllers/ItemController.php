@@ -36,7 +36,7 @@ class ItemController extends Controller
 
         $validatedData = $req->validate(
             [
-                'name'=> 'required|unique:items|min:5|max:20',
+                'name'=> 'required|unique:items|min:5|max:100',
                 'description'=>'required|min:5',
                 'price'=>'required|integer|min:1000',
                 'stock' => 'required|integer|min:1',
@@ -48,27 +48,12 @@ class ItemController extends Controller
         $fileName= time().'.'.$extension;
         $validatedData['image']= $fileName;
         Item::insert($validatedData);
-
-        $file = $req ->file('image');
-        $extension = $file->getClientOriginalExtension();
-        $fileName= time().'.'.$extension;
         Storage::putFileAs('public/images/', $file, $fileName);
         return redirect('/home')->with('successAddingItem', 'Successfully added new item');
 
-        // DB::table('users')->insert([
-        //     'username' => $req->username,
-        //     'email' => $req->email,
-        //     'password' => bcrypt($req->password),
-        //     'address' => $req->address,
-        //     'phone_number' => $req->phoneNumber,
-        //     'created_at' => Carbon::now(),
-        //     'updated_at' => Carbon::now(),
-        // ]);
     }
 
     public function addItemToCart(Request $req, $id){
-        // $name = auth()->user()->username;
-        // dd($req->quantity, $name, $id);
         $validatedData = $req->validate(
             [
                 'quantity' => 'required|integer|min:1'
@@ -101,7 +86,7 @@ class ItemController extends Controller
     public function editCart(Request $req, $id){
         $validatedData = $req->validate(
             [
-                'quantity' => 'required|min:1'
+                'quantity' => 'required|integer|min:1'
             ]
         );
         $cart = auth()->user()->cart;

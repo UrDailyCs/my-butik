@@ -52,25 +52,8 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt("jason123"),
             'role' => "member"
         ]);
-        \App\Models\User::factory(100)->create();
+        \App\Models\User::factory(50)->create();
         \App\Models\Item::factory(50)->create();
-        \App\Models\Cart::factory(100)->create();
-        // \App\Models\Transaction::factory(20)->create();
-        // $this->call([
-        //     UserSeeder::class,
-        //     CartSeeder::class,
-        // ]);
-
-
-        // DB::table('')->insert([
-        //     'image' => 'ijo.jpg',
-        //     'name' => 'test@example.com',
-        //     'address' => 'binus alsut',
-        //     'phone_number' => '0215813913',
-        //     'password' => bcrypt("tes"),
-        //     'role' => "member"
-        // ]);
-
-        // User
+        \App\Models\Cart::factory(50)->create();
     }
 }

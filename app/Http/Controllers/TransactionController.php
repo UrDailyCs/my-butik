@@ -13,7 +13,7 @@ class TransactionController extends Controller
     //
 
     public function transactionPage($username){
-        $transactions = Transaction::where('user_id',auth()->user()->id)->get();
+        $transactions = Transaction::where('user_id',auth()->user()->id)->orderBy("date", 'desc')->get();
         // dd($transactions);
         return view('transaction', ['transactions'=>$transactions]);
     }
@@ -48,6 +48,8 @@ class TransactionController extends Controller
                 $item->id, ['quantity'=>$item->pivot->quantity]
             );
         }
+        auth()->user()->point += ($total_price/10);
+        auth()->user()->save();
         $cart->items()->detach();
         return redirect('history/'.auth()->user()->username);
     }

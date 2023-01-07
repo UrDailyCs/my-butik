@@ -21,7 +21,7 @@ class ItemFactory extends Factory
         static $item=1;
         return [
             // 'image'=> fake()->image(storage_path('public/img/'),100,100,'nature',false),
-            'image'=>'img3.png',
+            'image'=>'nike af1.jpg',
             // 'name' => fake()->unique()->numerify("Cloth-####"),
             'name' => "Cloth - ".$item++,
             'description' => fake()->regexify('[A-Za-z0-9]{20}'),

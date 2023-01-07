@@ -26,8 +26,10 @@
                         <h1 style="font-size: 15px; margin-left:5px;">Quantity: </h1>
                     </div>
                     <div class="buttons">
-                        <input type="number" name="quantity" id="quantity" placeholder="1">
-
+                        <input type="number" name="quantity" id="quantity" value = {{ old('quantity') }}>
+                        @error('quantity')
+                                {{ $message }}
+                        @enderror
                         <button type="submit" class="btn btn-primary" id="update-btn">Update Cart</button>
                     </div>
                     <div>

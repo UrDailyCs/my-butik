@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-warning bg-white" style="padding: 2rem 2rem 2rem 2rem">
 
 
-    <a class="navbar-brand" href="/">MaiBoutique</a>
+    <a class="navbar-brand" href="/">MaShiu</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -24,6 +24,10 @@
             @auth
             @if ( auth()->user()->role ==='admin')
                 <a class="nav-item nav-link" href="/add_item">Add item</a>
+            @endif
+
+            @if ( auth()->user()->role ==='member')
+                <p class="nav-item nav-link">Your Point = {{ auth()->user()->point }}</p>
             @endif
 
                 <a class="nav-item nav-link" href="/logout">Logout</a>
