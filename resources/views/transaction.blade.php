@@ -1,38 +1,38 @@
 @extends('layouts.main')
+
 @section('title')
-    <title>{{ auth()->user()->username }}'s Purchase History</title>
+    {{ auth()->user()->username }}'s Purchase History
 @endsection
 
 @section('container')
-<h1 style="text-align: center">Check What You've Bought!</h1>
-<br>
-
-{{-- <a href="/checkOut"> <button class="btn btn-primary">Check out ({{ $total_quantity}})</button> </a> --}}
+    <h1 style="text-align: center">Check What You've Bought!</h1> <br>
     <div class="wrapper2">
-    @forelse ($transactions as $transaction )
-        <div class = wrapper1>
-            <h4> {{ $transaction->date }}</h4>
-            @foreach ($transaction->items as $item )
-                <ul >
-                    <li style="list-style-type:circle">{{ $item->pivot->quantity }} pc(s) {{ $item->name }} &nbsp;&nbsp; = &nbsp;Rp.{{ number_format($item->price) }}</li>
-                </ul>
-            {{-- <a href="/item_detail/{{ $item->id }}" class="btn btn-primary">detail</a> --}}
-            @endforeach
-            <h4>Total Price = Rp {{ number_format($transaction->total_transaction)}}</h4>
-        </div>
-    @empty
-        <div class="box">
-            <div class="empty">
-            <img src="{{Storage::url('images/bill.png')}}" class="cart-img" alt="cart_image">
-            <br>
+        <?php $ctr = 1; ?>
+        @forelse ($transactions as $transaction)
+            <div class = wrapper1>
+                <h4> Transaction #{{$ctr}} </h4>
+                Transaction Date: <b>{{ $transaction->date }}</b>
+                @foreach ($transaction->items as $item)
+                    <ul>
+                        <li style="list-style-type:circle">{{ $item->pivot->quantity }} pc(s) {{ $item->name }} &nbsp;&nbsp; = &nbsp; Rp{{ number_format($item->price, 2, ',', '.') }}</li>
+                    </ul>
+                @endforeach
+                <h4>Total Price: Rp{{ number_format($transaction->total_transaction, 2, ',', '.') }}</h4>
+                Payment Type: <b> {{$transaction->payment_type}} </b>
             </div>
-            <div class="empty">
-                <h1 class="" style="margin: 0 auto"><b>Sorry, no transaction found<b></h1>
-                <h3 style="text-align: center">We don't see any record</h3>
-                <h3 style="text-align: center">from your history</h3>
+            <?php $ctr += 1; ?>
+        @empty
+            <div class="box">
+                <div class="empty">
+                    <img src="{{Storage::url('images/bill.png')}}" class="cart-img" alt="cart_image"> <br>
+                </div>
+                <div class="empty">
+                    <h1 class="" style="margin: 0 auto"><b>Sorry, no transaction found<b></h1>
+                    <h3 style="text-align: center">We don't see any record</h3>
+                    <h3 style="text-align: center">from your history</h3>
+                </div>
             </div>
-        </div>
-    @endforelse
+        @endforelse
     </div>
     <style>
         .box{
@@ -53,7 +53,7 @@
         }
         .wrapper1{
             background-color: rgb(219, 217, 217);
-            display: flex;
+            display: inlin
             flex-direction: column;
             padding-left: 50px;
             padding-top: 25px;

@@ -24,36 +24,54 @@
     --radius: 0.5rem;
     --light-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
+
 body {
     margin: 0px;
     padding: 0px;
     background: var(--clr-primary);
     font-family: var(--ff-primary);
 }
+nav {
+    color: white;
+}
+nav a {
+    margin: 0px 5px;
+}
+.navbar-text {
+    margin: 0px 10px;
+}
+.content {
+    margin-top: 140px;
+}
+footer {
+    margin-top: 20px;
+    color: white;
+    text-align: center;
+    background-color: rgb(33, 37, 41);
+    padding: 20px 0px;
+}
 
 /* GLOBAL CSS */
-
 a {
     text-decoration: none;
 }
-ul,
-li {
+ul, li {
     list-style-type: none;
 }
 p {
-    /* color: var(--clr-text); */
     font-size: 0.9rem;
 }
+
 @media screen and (min-width: 969px) {
     p {
         font-size: 1.2rem;
     }
 }
+
 img:not(.logo, .slider) {
     display: block;
     width: 100%;
 }
-
 section {
     padding: 1rem 3rem;
 }
@@ -78,16 +96,16 @@ section {
 
     letter-spacing: 0.5rem;
 }
-/* a:hover {
-    background-color: rgb(161, 112, 208);
-
-    transform: scale(2);
-  } */
-
 .btn:hover {
     transform: scale(1.07);
     background: hsla(0, 0%, 100%, 0.801);
     color: hsl(322, 71%, 55%);
+}
+footer img {
+    width: 100px;
+}
+footer .sosmed img {
+    width: 40px;
 }
 
 /* Banner */
@@ -95,6 +113,8 @@ section {
     /* transform: translateY(150px); */
     padding: 0;
     margin: 0;
+    margin-top: -40px;
+    margin-bottom: -20px;
     height: 100vh;
     width: 100vw;
     max-width: 1900px;
@@ -118,14 +138,8 @@ section {
     transform: translateY(150px);
 }
 
-/* ==================
-=====END OF BANNER=====
-=======================*/
 
-/* ==================
-=====Form=====
-=======================*/
-
+/* Form */
 ::placeholder {
     font-size: 1.3rem;
     text-align: center;
@@ -136,15 +150,11 @@ section {
 .option {
     background: transparent;
 }
+.form-floating, .d-block {
+    margin: 10px 0px;
+}
 
-/* ==================
-=====END OF Form=====
-=======================*/
-
-/* ==================
-=====Index page=====
-=======================*/
-
+/* Index */
 .card-deck {
     display: flex;
     margin: 1 1;

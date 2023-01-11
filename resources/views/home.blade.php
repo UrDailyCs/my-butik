@@ -1,33 +1,30 @@
 @extends('layouts.main')
-@section('title')
-    <title>Home page</title>
-@endsection
+
+@section('title', 'Home')
 
 @section('container')
     <div class="wrapper1">
-        @if(session()->has('successAddingItem'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('successAddingItem') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
         <div class="row justify-content-center">
             <div class="col-lg-5">
-                <h1 class="text">Find Your Best Cloth Here!</h1>
+                <h1 class="text">Find Your Best Shoes Here!</h1>
             </div>
+        </div>
+        <div class="forms1">
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" name="search" placeholder="Search Shoes" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit"><i class="fa fa-search"></i></button>
+            </form>
         </div>
         <div class="card-deck">
             @foreach ($items as $item )
                 <div class="card" style="width: 18rem;">
                     <div class="item-image">
-                        {{-- <img src="{{ $item->image }}" class="card-img-top" alt="..."> --}}
                         <img src="{{Storage::url('images/'.$item->image)}}" class="card-img-top" alt="...">
                     </div>
-
                     <div class="card-body">
                         <h5 class="card-title">{{ $item->name }}</h5>
-                        <p class="card-text">Rp {{ number_format($item->price) }}</p>
-                        <a href="/item_detail/{{ $item->name }}" class="btn btn-primary">More Detail</a>
+                        <p class="card-text">Rp{{ number_format($item->price, 2, ',', '.') }}</p>
+                        <a href="/item/view/{{ $item->id }}" class="btn btn-primary">More Detail</a>
                     </div>
                 </div>
             @endforeach
@@ -66,6 +63,21 @@
             justify-content: flex-start;
 
         }
+        #search{
+            width : 1100px;
+            height: 40px;
+        }
+        .text-button{
+            background-color: #0d6efd;
+            color: white;
+            height: 40px;
+            margin-left: 50px;
+            border-radius: 5px 5px 5px 5px;
+            width: 100px;
+        }
+        .forms1 {
+            margin: 0px 15px;
+        }
         .text{
             text-align: center;
             font-size: 35px;
@@ -83,6 +95,5 @@
             justify-content: center;
             padding-top: 20px;
         }
-
     </style>
 @endsection

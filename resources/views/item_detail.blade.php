@@ -1,7 +1,6 @@
 @extends('layouts.main')
-@section('title')
-    <title>detail item</title>
-@endsection
+
+@section('title', "Item's Detail")
 
 @section('container')
 
@@ -11,44 +10,58 @@
             <img src="{{Storage::url('images/'.$item->image)}}" class="card-img-top" alt="...">
         </div>
         <div class="card-body">
-            <h5 class="card-title">{{ $item->name }}</h5>
-            <p class="card-text">Rp {{ number_format($item->price) }}  Qty: {{ $item->stock }}</p>
-            <hr style="height: 10px; color:gray" >
-            <p class="card-text">
-                {{ $item->description }}
-            </p>
-
-
+            <h5 class="card-title"><b>{{ $item->name }}</b></h5>
+            <p class="card-text">Qty: {{ $item->stock }}</p>
+            <h6 class="card-text">Rp{{ number_format($item->price, 2, ',', '.') }}</h6>
+            <hr>
+            <p class="card-text"> {{ $item->description }} </p>
+            <p class="card-text"> {{ $item->quantity }} </p>
             <div class="card-footer">
-                @if(auth()->user()->role === 'member')
-                    <form action="/ToCart/{{ $item->id }}" method="POST">
-                        @csrf
-                        <input type="number" name="quantity" id="quantity" placeholder="Qty" value="{{ old('quantity') }}">
-                        @error('quantity')
-                                {{ $message }}
-                        @enderror
-                        {{-- <div class="form-floating">
-                            <input type="quantity" name="quantity" class="form-control @error('quantity') is-invalid @enderror" id="quantity" required autofocus value="{{ Cookie::get('mycookie') !== null ? Cookie::get('mycookie') : old('quantity')}}">
-                            <label for="quantity">quantity address</label>
+                <form action="/cart/edit/{{ $item->id }}" method="POST">
+                    @csrf
+                    <div>
+                        <h1 style="font-size: 15px; margin-left:5px;">Quantity: </h1>
+                    </div>
+                    <div class="buttons">
+                        <input type="number" name="quantity" id="quantity" max={{ $item->stock }} value = {{ old('quantity') }}>
                             @error('quantity')
-                            <div class="invalid-feedback">
                                 {{ $message }}
-                            </div>
                             @enderror
-                        </div> --}}
-                        <button type="submit" class="btn btn-primary">Add to Cart</button>
-                    </form>
-                @endif
-
-                <a href="{{ url()->previous() }}" class="w-100 btn btn-lg btn-danger mt-3">back</a>
-                @if (auth()->user()->role === 'admin')
-                    <a href="/delete_item/{{ $item->id }}" class="w-100 btn btn-lg btn-danger mt-3">delete item</a>
-                @endif
+                        @if (auth()->user()->role == 'admin')
+                            <button type="submit" class="btn btn-primary" id="update-btn">Add Qty</button>
+                        @else
+                            <button type="submit" class="btn btn-primary" id="update-btn">Update Cart</button>
+                        @endif
+                    </div>
+                    <div>
+                        @if (auth()->user()->role == 'admin')
+                            <a href="/item/remove/{{ $item->id }}" class="w-100 btn btn-lg btn-danger mt-3"><i class="fa fa-trash-o"></i> Remove Item</a>
+                        @endif
+                        <a href="{{ url()->previous() }}" class="w-100 btn btn-lg btn-danger mt-3">Back</a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-
 <style>
+    .buttons{
+        display: flex;
+        justify-content: center;
+    }
+    #quantity{
+        height: 40px;
+    }
+    #update-btn{
+        height: 40px;
+        width: 200px;
+        margin-left: 20px;
+    }
+    .card-text{
+        font-size:25px;
+    }
+    .card-title{
+        font-size: 35px;
+    }
     .section{
         justify-content: center;
         display: flex;
@@ -74,8 +87,7 @@
         align-items: center;
     }
     .btn-primary{
-        width: 200px;
-        height: max-content;
+        width: 100px;
     }
     .card-img-top{
         width: 200px;

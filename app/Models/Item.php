@@ -12,13 +12,10 @@ class Item extends Model
         'id',
     ];
     public function cart(){
-
-        return $this->belongsToMany(Cart::class)
-        ->withPivot('quantity');
+        return $this->belongsToMany(Cart::class)->withPivot('quantity');
     }
 
     public function transaction(){
-        return $this->belongsToMany(Transaction::class)
-        ->withPivot('quantity');
+        return $this->belongsToMany(Transaction::class)->withPivot('quantity');
     }
 }

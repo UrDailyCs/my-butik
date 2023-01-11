@@ -4,53 +4,61 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Transaction;
-use Carbon\Carbon ;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class TransactionController extends Controller
 {
-    //
-
-    public function transactionPage($username){
-        $transactions = Transaction::where('user_id',auth()->user()->id)->orderBy("date", 'desc')->get();
-        // dd($transactions);
-        return view('transaction', ['transactions'=>$transactions]);
+    public function transactionPage () {
+        $transactions = Transaction::where('user_id',auth()->user()->id)->orderBy('date', 'desc')->get();
+        return view('transaction', ['transactions' => $transactions]);
     }
 
-    public function addTransaction(){
+    public function addTransaction (Request $req) {
         $user_id = auth()->user()->id;
-        $cart = Cart::where('user_id', $user_id)->first();
-        // dd($id, $cart);
-        $total_price= 0;
+        $cart = auth()->user()->cart;
+
+        $total_price = 0;
         $total_quantity = 0;
         foreach ($cart->items as $item){
-            $total_price += $item->pivot->quantity * $item->price;
-            $total_quantity += $item->pivot->quantity;
+            if ($item->pivot->status == 'on') {
+                $total_price += $item->pivot->quantity * $item->price;
+                $total_quantity += $item->pivot->quantity;
+            }
         }
-        if( $total_quantity === 0 ) return redirect('home');
+
+        if ($total_quantity === 0) return redirect('home');
+
         $transaction_id = DB::table('transactions')->insertGetId([
             'user_id' => $user_id,
-            'total_transaction'=>$total_price,
+            'total_transaction'=> $total_price,
+            'payment_type' => $req->payment_type,
             'date' => Carbon::now()
         ]);
 
         $transaction = Transaction::where('id', $transaction_id)->first();
-        // dd($transaction);
         foreach ($cart->items as $item){
-            // DB::table('item_transaction')->insert([
-            //     'transaction_id' =>$transaction_id,
-            //     'item_id' => $item->id,
-            //     'quantity'=>$item->pivot->quantity,
-            //     'created_at' => Carbon::now()
-            // ]);
-            $transaction->items()->attach(
-                $item->id, ['quantity'=>$item->pivot->quantity]
-            );
+            if ($item->pivot->status == 'on') {
+                $transaction->items()->attach(
+                    $item->id, ['quantity'=>$item->pivot->quantity]
+                );
+                $item->stock -= $item->pivot->quantity;
+                $item->save();
+                $cart->items()->detach($item->id);
+            }
         }
-        auth()->user()->point += ($total_price/10);
-        auth()->user()->save();
-        $cart->items()->detach();
+
+        $cur_points = auth()->user()->points;
+        $new_points = $cur_points + ($total_price / 10);
+        if ($req->payment_type == 'Points') {
+            $new_points -= $total_price;
+        }
+        User::where('id', $user_id)->update([
+            'points' => $new_points
+        ]);
+
         return redirect('history/'.auth()->user()->username);
     }
 }

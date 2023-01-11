@@ -18,35 +18,46 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
+Route::get('/', function () { return view('index');});
+
+Route::group(['middleware' => 'guest'], function () {
+    Route::get('/login', [AuthController::class, 'loginPage']);
+    Route::post('/login', [AuthController::class, 'login']);
+
+    Route::get('/register', [UserController::class, 'registerPage']);
+    Route::post('/register', [UserController::class, 'register']);
 });
 
-Route::get('/login', [AuthController::class, 'loginPage'])->name('login')->middleware('guest');
-Route::post('/loginAuth', [AuthController::class, 'login']);
-Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth');
-Route::get('/register', [UserController::class, 'registerPage'])->middleware('guest');
-Route::post('/registerUser', [UserController::class, 'registerUser']);
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/home', [ItemController::class, 'getAllItems']);
 
-Route::get('/profile/{username}', [UserController::class, 'viewProfile'])->middleware('auth');
-Route::get('/editProfile/{username}', [UserController::class, 'editProfilePage'])->middleware('auth');
+    Route::get('/logout', [AuthController::class, 'logout']);
 
-Route::post('/updateProfile/{id}', [UserController::class, 'updateProfile']);
-Route::get('/editPassword/{username}', [UserController::class, 'editPasswordPage'])->middleware('member');
-Route::post('/updatePassword/{id}', [UserController::class, 'updatePassword'])->middleware('member');
-Route::get('/remove_from_cart/{id}', [ItemController::class, 'removeFromCart'])->middleware('member');
+    Route::get('/profile', [UserController::class, 'profilePage']);
+    Route::get('/profile/edit/', [UserController::class, 'editProfile']);
+    Route::post('/profile/update/', [UserController::class, 'updateProfile']);
 
-Route::get('/cart/{username}', [CartController::class, 'cart'])->middleware('member');
-Route::get('/history/{username}', [TransactionController::class, 'transactionPage'])->middleware('member');
-Route::get('/checkOut', [TransactionController::class, 'addTransaction'])->middleware('member');
+    Route::get('/item/view/{id}', [ItemController::class, 'itemPage']);
 
-Route::get('/home', [ItemController::class, 'getAllItems'])->middleware('auth');
-Route::get('/search', [ItemController::class, 'search'])->middleware('auth');
-Route::get('/item_detail/{name}', [ItemController::class, 'detailItems'])->middleware('auth');
-Route::post('/ToCart/{id}', [ItemController::class, 'addItemToCart']);
-Route::get('/edit_cart_page/{id}', [ItemController::class, 'editCartPage'])->middleware('member');
-Route::post('/edit_cart/{id}', [ItemController::class, 'editCart']);
+    Route::post('/cart/edit/{id}', [ItemController::class, 'editCart']);
+});
 
-Route::get('/add_item', [ItemController::class, 'addItemPage'])->middleware('admin');
-Route::post('/addItem', [ItemController::class, 'addItem']);
-Route::get('/delete_item/{id}', [ItemController::class, 'deleteItem'])->middleware('admin');
+Route::group(['middleware' => 'member'], function () {
+    Route::get('/profile/password/edit', [UserController::class, 'editPassword']);
+    Route::post('/profile/password/update', [UserController::class, 'updatePassword']);
+
+    Route::get('/cart', [CartController::class, 'cart']);
+    Route::get('/cart/edit', [CartController::class, 'cartChange']);
+    Route::get('/cart/remove/{id}', [ItemController::class, 'removeFromCart']);
+
+    Route::get('/history', [TransactionController::class, 'transactionPage']);
+
+    Route::get('/checkOut', [TransactionController::class, 'addTransaction']);
+    Route::post('/checkOut', [TransactionController::class, 'addTransaction']);
+});
+
+Route::group(['middleware' => 'admin'], function () {
+    Route::get('/item/add', [ItemController::class, 'addItemPage']);
+    Route::post('/item/add', [ItemController::class, 'addItem']);
+    Route::get('/item/remove/{id}', [ItemController::class, 'deleteItem']);
+});

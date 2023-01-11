@@ -23,7 +23,7 @@ class ItemFactory extends Factory
             // 'image'=> fake()->image(storage_path('public/img/'),100,100,'nature',false),
             'image'=>'nike af1.jpg',
             // 'name' => fake()->unique()->numerify("Cloth-####"),
-            'name' => "Cloth - ".$item++,
+            'name' => "Shoes - ".$item++,
             'description' => fake()->regexify('[A-Za-z0-9]{20}'),
             'stock' => fake()->numberBetween(0, 100),
             'price' => fake()->numberBetween(10000, 100000)

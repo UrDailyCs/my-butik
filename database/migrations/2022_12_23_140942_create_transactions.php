@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->date('date');
             $table->integer('total_transaction');
+            $table->string('payment_type')->default('COD');
             $table->timestamps();
         });
     }

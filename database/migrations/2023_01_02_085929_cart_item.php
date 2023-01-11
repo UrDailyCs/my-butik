@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('cart_id')->references('id')->on('carts')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('item_id')->references('id')->on('items')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('quantity');
+            $table->string('status')->default('on');
             $table->timestamps();
         });
     }
