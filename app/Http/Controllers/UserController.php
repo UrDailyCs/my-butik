@@ -7,6 +7,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -25,7 +26,12 @@ class UserController extends Controller
         $validatedData['password'] = bcrypt($validatedData['password']);
         $new_user = User::create($validatedData);
         Cart::insert(['user_id' => $new_user->id]);
-        return redirect('login')->with('success', 'Registration successfull! Please login');
+
+        $success = 'Registration Success!';
+        if (Session::get('locale') == 'id') {
+            $success = 'Registrasi Sukses!';
+        }
+        return redirect('login')->with(['success' => $success]);
     }
 
     public function profilePage () {
@@ -45,7 +51,12 @@ class UserController extends Controller
             'address'=>'required|min:5'
         ]);
         User::where('id', $user_id)->update($validatedData);
-        return redirect('profile')->with('editProfileSuccess', 'Profile has been changed');
+
+        $success = 'Profile has been changed.';
+        if (Session::get('locale') == 'id') {
+            $success = 'Profil berhasil diubah.';
+        }
+        return redirect('profile')->with(['editProfileSuccess' => $success]);
     }
 
     public function editPassword () {
@@ -65,9 +76,18 @@ class UserController extends Controller
                 'password' => bcrypt($validatedData['new_password']),
                 'updated_at' => Carbon::now(),
             ]);
-            return redirect('profile')->with('editPasswordSuccess', 'Password has been updated');
+
+            $success = 'Password has been updated.';
+            if (Session::get('locale') == 'id') {
+                $success = 'Kata Sandi berhasil diperbaharui.';
+            }
+            return redirect('profile')->with(['editPasswordSuccess' => $success]);
         } else {
-            return back()->with('wrongPassword', 'Wrong password!');
+            $fail = 'Wrong password!';
+            if (Session::get('locale') == 'id') {
+                $fail = 'Kata Sandi salah.';
+            }
+            return redirect()->back()->with(['wrongPassword' => $fail]);
         }
     }
 }

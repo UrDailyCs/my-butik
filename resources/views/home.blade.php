@@ -3,20 +3,48 @@
 @section('title', 'Home')
 
 @section('container')
+    <div class="container carousel">
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="{{ asset('img/banner/1.png') }}" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="{{ asset('img/banner/2.png') }}" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="{{ asset('img/banner/3.png') }}" class="d-block w-100" alt="...">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">{{__('button.previous')}}</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">{{__('button.next')}}</span>
+            </button>
+          </div>
+    </div>
     <div class="wrapper1">
         <div class="row justify-content-center">
             <div class="col-lg-5">
-                <h1 class="text">Find Your Best Shoes Here!</h1>
+                <h1 class="text">{{__('text.home')}}</h1>
             </div>
         </div>
         <div class="forms1">
             <form class="d-flex">
-                <input class="form-control me-2" type="search" name="search" placeholder="Search Shoes" aria-label="Search">
+                <input class="form-control me-2" type="search" name="search" placeholder="{{__('form.input.search')}}" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit"><i class="fa fa-search"></i></button>
             </form>
         </div>
         <div class="card-deck">
-            @foreach ($items as $item )
+            @foreach ($items as $item)
                 <div class="card" style="width: 18rem;">
                     <div class="item-image">
                         <img src="{{Storage::url('images/'.$item->image)}}" class="card-img-top" alt="...">
@@ -24,7 +52,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ $item->name }}</h5>
                         <p class="card-text">Rp{{ number_format($item->price, 2, ',', '.') }}</p>
-                        <a href="/item/view/{{ $item->id }}" class="btn btn-primary">More Detail</a>
+                        <a href="/item/view/{{ $item->id }}" class="btn btn-primary">{{__('button.detail')}}</a>
                     </div>
                 </div>
             @endforeach
@@ -35,7 +63,7 @@
                     <li class="page-item">
                         <a class="page-link" href="{{ $items->previousPageUrl() }}" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
-                            <span class="sr-only">Previous</span>
+                            <span class="sr-only">{{__('button.previous')}}</span>
                         </a>
                     </li>
 
@@ -50,7 +78,7 @@
                     <li class="page-item">
                         <a class="page-link" href="{{ $items->nextPageurl() }}" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
-                        <span class="sr-only">Next</span>
+                        <span class="sr-only">{{__('button.next')}}</span>
                         </a>
                     </li>
                 </ul>

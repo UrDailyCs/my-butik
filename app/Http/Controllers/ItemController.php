@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
@@ -39,7 +41,12 @@ class ItemController extends Controller
         Item::insert($validatedData);
 
         Storage::putFileAs('public/images/', $file, $fileName);
-        return redirect('/home')->with('successAddingItem', 'Successfully added new item');
+
+        $success = 'Item successfully added!';
+        if (Session::get('locale') == 'id') {
+            $success = 'Barang telah ditambahkan!';
+        }
+        return redirect('/home')->with(['success' => $success]);
     }
 
     public function editCart (Request $req, $id) {
@@ -58,7 +65,7 @@ class ItemController extends Controller
                     $id => ['quantity' => $validatedData['quantity']]
                 ]);
             }
-            return redirect('/cart/'.auth()->user()->username);
+            return redirect('/cart');
         } else {
             $item = Item::where('id', $id)->first();
             $item->stock += $validatedData['quantity'];
@@ -70,7 +77,7 @@ class ItemController extends Controller
     public function removeFromCart ($id) {
         $cart = auth()->user()->cart;
         $cart->items()->detach($id);
-        return redirect('/cart/'.auth()->user()->username);
+        return redirect('/cart');
     }
 
     public function deleteItem ($id) {

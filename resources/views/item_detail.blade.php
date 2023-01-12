@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', "Item's Detail")
+@section('title', $item->name)
 
 @section('container')
 
@@ -11,7 +11,7 @@
         </div>
         <div class="card-body">
             <h5 class="card-title"><b>{{ $item->name }}</b></h5>
-            <p class="card-text">Qty: {{ $item->stock }}</p>
+            <p class="card-text">{{__('text.stock')}}: {{ $item->stock }}</p>
             <h6 class="card-text">Rp{{ number_format($item->price, 2, ',', '.') }}</h6>
             <hr>
             <p class="card-text"> {{ $item->description }} </p>
@@ -20,7 +20,7 @@
                 <form action="/cart/edit/{{ $item->id }}" method="POST">
                     @csrf
                     <div>
-                        <h1 style="font-size: 15px; margin-left:5px;">Quantity: </h1>
+                        <h1 style="font-size: 15px; margin-left:5px;">{{__('form.input.quantity')}}: </h1>
                     </div>
                     <div class="buttons">
                         <input type="number" name="quantity" id="quantity" max={{ $item->stock }} value = {{ old('quantity') }}>
@@ -28,16 +28,16 @@
                                 {{ $message }}
                             @enderror
                         @if (auth()->user()->role == 'admin')
-                            <button type="submit" class="btn btn-primary" id="update-btn">Add Qty</button>
+                            <button type="submit" class="btn btn-primary" id="update-btn">{{__('button.add_stock')}}</button>
                         @else
-                            <button type="submit" class="btn btn-primary" id="update-btn">Update Cart</button>
+                            <button type="submit" class="btn btn-primary" id="update-btn">{{__('button.update_cart')}}</button>
                         @endif
                     </div>
                     <div>
                         @if (auth()->user()->role == 'admin')
                             <a href="/item/remove/{{ $item->id }}" class="w-100 btn btn-lg btn-danger mt-3"><i class="fa fa-trash-o"></i> Remove Item</a>
                         @endif
-                        <a href="{{ url()->previous() }}" class="w-100 btn btn-lg btn-danger mt-3">Back</a>
+                        <a href="{{ url()->previous() }}" class="w-100 btn btn-lg btn-danger mt-3">{{__('button.back')}}</a>
                     </div>
                 </form>
             </div>

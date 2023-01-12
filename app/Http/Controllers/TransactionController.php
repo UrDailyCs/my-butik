@@ -8,6 +8,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class TransactionController extends Controller
 {
@@ -59,6 +60,10 @@ class TransactionController extends Controller
             'points' => $new_points
         ]);
 
-        return redirect('history/'.auth()->user()->username);
+        $success = 'Transaction Success!';
+        if (Session::get('locale') == 'id') {
+            $success = 'Transaksi Sukses!';
+        }
+        return redirect('/history')->with(['success' => $success]);
     }
 }

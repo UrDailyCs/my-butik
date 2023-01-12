@@ -1,6 +1,6 @@
 <footer class="container-fluid">
     <img class="logo" src="{{ asset('img/logo.png') }}" alt=""> <br> <br>
-    <h6>Discover amazing various deals on shoes for the whole family, only at MaShiu.</h6> <br>
+    <h6>{{__('text.footer')}}</h6> <br>
     <h6>Copyright &copy 2022</h6>
     <h6>All Rights Reserved</h6>
     <div class="sosmed">

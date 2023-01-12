@@ -23,27 +23,27 @@
     @endif
     <section class="section">
         <div class="card detail">
-            <h1> My Profile </h1>
+            <h1> {{__('button.profile')}} </h1>
             <div class="card-body">
                 <div class="card-text" id="role">
                     <p>{{ auth()->user()->role }}</p>
                 </div>
                 <p class="card-text">
-                    <b>Username: {{ auth()->user()->username }}</b>
+                    <b>{{__('form.input.username')}}: {{ auth()->user()->username }}</b>
                 </p>
                 <p class="card-text">
-                    Email: {{ auth()->user()->email }}
+                    {{__('form.input.email')}}: {{ auth()->user()->email }}
                 </p>
                 <p class="card-text">
-                    Phone Number: {{ auth()->user()->phone_number }}
+                    {{__('form.input.phone')}}: {{ auth()->user()->phone_number }}
                 </p>
                 <p class="card-text">
-                    Address: {{ auth()->user()->address }}
+                    {{__('form.input.address')}}: {{ auth()->user()->address }}
                 </p>
                 <div class="card-footer">
-                    <a href="/profile/edit" class="btn btn-primary" id="profile">Edit Profile</a>
+                    <a href="/profile/edit" class="btn btn-primary" id="profile">{{__('button.update_profile')}}</a>
                     @if(auth()->user()->role === 'member')
-                        <a href="/profile/password/edit" class="btn btn-primary" id="pw">Edit Password</a>
+                        <a href="/profile/password/edit" class="btn btn-primary" id="pw">{{__('button.edit_password')}}</a>
                     @endif
                 </div>
             </div>
@@ -74,7 +74,7 @@
                 margin: -10px auto 5px auto;
                 width: 150px;
                 color: white;
-                font-size: small
+                font-size: small;
                 border-radius: 3px 3px 3px 3px;
                 -moz-border-radius: 3px 3px 3px 3px;
                 -webkit-border-radius: 3px 3px 3px 3px;

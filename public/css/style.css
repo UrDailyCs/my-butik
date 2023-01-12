@@ -37,6 +37,14 @@ nav {
 nav a {
     margin: 0px 5px;
 }
+.language {
+    max-width: max-content;
+    margin: 0px 5px;
+}
+.language .active {
+    background-color: white;
+    color: black;
+}
 .navbar-text {
     margin: 0px 10px;
 }
@@ -49,6 +57,9 @@ footer {
     text-align: center;
     background-color: rgb(33, 37, 41);
     padding: 20px 0px;
+}
+table {
+    max-width: 80vh;
 }
 
 /* GLOBAL CSS */
@@ -109,7 +120,7 @@ footer .sosmed img {
 }
 
 /* Banner */
-.banner {
+.parallax {
     /* transform: translateY(150px); */
     padding: 0;
     margin: 0;
@@ -120,7 +131,7 @@ footer .sosmed img {
     max-width: 1900px;
     max-height: 900px;
     background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.9)),
-        url(../img/banner.png) center/cover no-repeat fixed;
+        url(../img/parallax.png) center/cover no-repeat fixed;
     /* image-rendering: -webkit-optimize-contrast; */
     text-align: center;
     color: wheat;
@@ -128,12 +139,12 @@ footer .sosmed img {
     flex-direction: column;
     justify-content: flex-start;
 }
-.banner-img {
+/* .parallax-img {
     height: 300px;
     transform: translateY(100px);
     object-fit: contain;
-}
-.banner p {
+} */
+.parallax p {
     font-size: 2rem;
     transform: translateY(150px);
 }
@@ -163,4 +174,10 @@ footer .sosmed img {
 }
 .card {
     margin: 1rem;
+}
+.carousel {
+    width: 80vh;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 15px;
 }

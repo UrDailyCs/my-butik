@@ -1,19 +1,19 @@
 @extends('layouts.main')
 
 @section('title')
-    {{ auth()->user()->username }}'s Cart
+    {{__('button.cart')}}
 @endsection
 
 @section('container')
     <div class="wrapper1">
         <div class="row justify-content-center">
             <div class="col-lg-5">
-                <h1 class="text">My Cart</h1>
+                <h1 class="text">{{__('text.cart.title')}}</h1>
             </div>
         </div>
         <div class="checkout">
-            <h3>Total Price: Rp{{number_format($total_price, 2, ',', '.')}}</h3>
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Check out ({{$total_quantity}})</button>
+            <h3>{{__('text.total_price')}}: Rp{{number_format($total_price, 2, ',', '.')}}</h3>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">{{__('button.check_out')}} ({{$total_quantity}})</button>
         </div>
         <div class="card-deck">
             @forelse ($items as $item)
@@ -29,10 +29,10 @@
                         @endif
                                 <h5 class="card-title">{{ $item->name }} <br></h5>
                                 <h6 class="card-text">Rp{{ number_format($item->price, 2, ',', '.') }}</h6>
-                                <h6 class="card-text">Qty: {{ $item->pivot->quantity }}</h6>
-                                <h6 class="card-text">Total Price: Rp{{ number_format($item->price * $item->pivot->quantity, 2, ',', '.') }}</h6>
-                                <a href="/item/view/{{ $item->id }}" class="btn btn-primary">Edit Cart</a>
-                                <a href="/cart/remove/{{ $item->id }}" class="btn btn-danger">Remove from Cart</a>
+                                <h6 class="card-text">{{__('form.input.quantity')}}: {{ $item->pivot->quantity }}</h6>
+                                <h6 class="card-text">{{__('text.total_price')}}: Rp{{ number_format($item->price * $item->pivot->quantity, 2, ',', '.') }}</h6>
+                                <a href="/item/view/{{ $item->id }}" class="btn btn-primary">{{__('button.update_cart')}}</a>
+                                <a href="/cart/remove/{{ $item->id }}" class="btn btn-danger">{{__('button.remove_cart')}}</a>
                                 <input type="hidden" name="item_id" value={{ $item->id }}>
                                 @if ($item->pivot->status == 'on' && $item->pivot->quantity <= $item->stock)
                                     <input type="checkbox" name="status" class="checkbox" value='true' checked onchange="this.form.submit();">
@@ -49,8 +49,8 @@
                         <br>
                     </div>
                     <div class="empty">
-                        <h1 class="" style="margin: 0 auto"><b>Your cart is empty<b></h1>
-                        <h3 style="text-align: center">Looks like you have not added anything to your cart. <br> Go ahead and explore our catalog!</h3>
+                        <h1 class="" style="margin: 0 auto"><b>{{__('text.cart.empty')}}<b></h1>
+                        <h3 style="text-align: center">{{__('text.cart.empty_2')}} <br>{{__('text.cart.empty_3')}}</h3>
                     </div>
                 </div>
             @endforelse
@@ -60,25 +60,24 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel">Payment Type</h5>
+              <h5 class="modal-title" id="staticBackdropLabel">{{__('form.title.payment')}}</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="/checkOut">
                 @csrf
                 <div class="modal-body">
-                        Choose payment method: <br>
                         @if (auth()->user()->points >= $total_price)
-                            <input type="radio" name="payment_type" id="" value="Point"> Points <br>
-                            &nbsp;&nbsp;&nbsp; Your Point(s) will be used to cover up this transaction. <br>
+                            <input type="radio" name="payment_type" id="" value="Points"> Points <br>
+                            &nbsp;&nbsp;&nbsp; {{__('text.payment.points')}} <br>
                         @else
-                            <input type="radio" name="payment_type" id="" value="Point" disabled> Points <br>
-                            &nbsp;&nbsp;&nbsp; Point(s) is not enough. Your current point(s): {{ number_format(auth()->user()->points-$total_price, '0', ',', '.') }} <br>
+                            <input type="radio" name="payment_type" id="" value="Points" disabled> {{__('form.input.points')}} <br>
+                            &nbsp;&nbsp;&nbsp; {{__('text.payment.points_less')}} {{ number_format(auth()->user()->points, '0', ',', '.') }} <br>
                         @endif
-                        <input type="radio" name="payment_type" id="" value="COD"> COD (Cash On Delivery)
+                        <input type="radio" name="payment_type" id="" value="COD" checked> {{__('form.input.cod')}}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Cancel </button>
-                    <button type="submit" class="btn btn-primary"> Proceed </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> {{__('button.cancel')}} </button>
+                    <button type="submit" class="btn btn-primary"> {{__('button.proceed')}} </button>
                 </div>
             </form>
           </div>

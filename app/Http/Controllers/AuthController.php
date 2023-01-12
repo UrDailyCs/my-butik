@@ -26,7 +26,12 @@ class AuthController extends Controller
             Session::put('mysession', $credentials);
             return redirect('home');
         }
-        return back()->with('loginError', 'Login failed!');
+
+        $fail = 'Login Failed!';
+        if (Session::get('locale') == 'id') {
+            $fail = 'Gagal';
+        }
+        return redirect()->back()->with(['loginError' => $fail]);
     }
 
     public function logout () {

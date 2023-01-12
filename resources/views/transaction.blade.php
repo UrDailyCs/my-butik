@@ -1,24 +1,49 @@
 @extends('layouts.main')
 
 @section('title')
-    {{ auth()->user()->username }}'s Purchase History
+    {{__('button.history')}}
 @endsection
 
 @section('container')
-    <h1 style="text-align: center">Check What You've Bought!</h1> <br>
+    @if (session()->has('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+    <h1 style="text-align: center">{{__('text.history.title')}}</h1> <br>
     <div class="wrapper2">
         <?php $ctr = 1; ?>
         @forelse ($transactions as $transaction)
             <div class = wrapper1>
-                <h4> Transaction #{{$ctr}} </h4>
-                Transaction Date: <b>{{ $transaction->date }}</b>
-                @foreach ($transaction->items as $item)
-                    <ul>
-                        <li style="list-style-type:circle">{{ $item->pivot->quantity }} pc(s) {{ $item->name }} &nbsp;&nbsp; = &nbsp; Rp{{ number_format($item->price, 2, ',', '.') }}</li>
-                    </ul>
-                @endforeach
-                <h4>Total Price: Rp{{ number_format($transaction->total_transaction, 2, ',', '.') }}</h4>
-                Payment Type: <b> {{$transaction->payment_type}} </b>
+                <h4> {{__('text.transaction')}} #{{$ctr}} </h4>
+                {{__('text.transaction_date')}}: <b>{{ $transaction->date }}</b>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">{{__('form.input.name')}}</th>
+                            <th scope="col">{{__('form.input.quantity')}}</th>
+                            <th scope="col">{{__('form.input.price')}}</th>
+                            <th scope="col">{{__('text.sub_total')}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $ctr = 1; ?>
+                        @foreach ($transaction->items as $item)
+                            <tr>
+                                <th scope="row">{{$ctr}}</th>
+                                <td>{{ $item->name }}</td>
+                                <td>{{ $item->pivot->quantity }}</td>
+                                <td>Rp{{ number_format($item->price, 2, ',', '.') }}</td>
+                                <td>Rp{{ number_format($item->price * $item->pivot->quantity, 2, ',', '.') }}</td>
+                            </tr>
+                            <?php $ctr += 1; ?>
+                        @endforeach
+                    </tbody>
+                </table>
+                <h4>{{__('text.total_price')}}: Rp{{ number_format($transaction->total_transaction, 2, ',', '.') }}</h4>
+                {{__('text.payment.type')}}: <b> {{$transaction->payment_type}} </b>
             </div>
             <?php $ctr += 1; ?>
         @empty
@@ -27,9 +52,9 @@
                     <img src="{{Storage::url('images/bill.png')}}" class="cart-img" alt="cart_image"> <br>
                 </div>
                 <div class="empty">
-                    <h1 class="" style="margin: 0 auto"><b>Sorry, no transaction found<b></h1>
-                    <h3 style="text-align: center">We don't see any record</h3>
-                    <h3 style="text-align: center">from your history</h3>
+                    <h1 class="" style="margin: 0 auto"><b>{{__('text.history.empty')}}<b></h1>
+                    <h3 style="text-align: center">{{__('text.history.empty_2')}}</h3>
+                    <h3 style="text-align: center">{{__('text.history.empty_3')}}</h3>
                 </div>
             </div>
         @endforelse
